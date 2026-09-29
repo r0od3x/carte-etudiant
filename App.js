@@ -1,85 +1,126 @@
 import React from "react";
-import {
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  StatusBar,
-} from "react-native";
+import { Image, StyleSheet, Text, View, SafeAreaView, StatusBar } from "react-native";
+import { student, schoolLogo } from "./config/student";
+
+function Field({ label, value }) {
+  if (!value) return null;
+  return (
+    <View style={styles.field}>
+      <Text style={styles.label}>{label}</Text>
+      <Text style={styles.value}>{value}</Text>
+    </View>
+  );
+}
 
 export default function App() {
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="dark-content" backgroundColor="#f6f7fb" />
+      <StatusBar barStyle="dark-content" backgroundColor={COLORS.background} />
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Image
-            source={require("./assets/emsi.png")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-          <Text style={styles.schoolName}>EMSI MAARIF</Text>
-        </View>
+        <View style={styles.card}>
+          <View style={styles.cardHeader}>
+            <Image source={schoolLogo} style={styles.logo} resizeMode="contain" />
+            <View style={styles.headerText}>
+              <Text style={styles.schoolName}>{student.school}</Text>
+              <Text style={styles.cardTitle}>CARTE D'ÉTUDIANT</Text>
+            </View>
+          </View>
 
-        <View style={styles.info}>
-          <Text style={styles.label}>
-            Nom : <Text style={styles.value}>GHALBI</Text>
-          </Text>
-          <Text style={styles.label}>
-            Prénom : <Text style={styles.value}>MOHAMED REDA</Text>
-          </Text>
-          <Text style={styles.label}>
-            Année universitaire : <Text style={styles.value}>2025 / 2026</Text>
-          </Text>
+          <View style={styles.cardBody}>
+            <Field label="Nom" value={student.lastName} />
+            <Field label="Prénom" value={student.firstName} />
+            <Field label="N° étudiant" value={student.studentId} />
+            <Field label="Filière" value={student.program} />
+            <Field label="Année universitaire" value={student.academicYear} />
+          </View>
+
+          <View style={styles.cardFooter} />
         </View>
       </View>
     </SafeAreaView>
   );
 }
 
+const COLORS = {
+  background: "#f6f7fb",
+  card: "#ffffff",
+  primary: "#0b6e4f",
+  text: "#111827",
+  muted: "#6b7280",
+  border: "#e5e7eb",
+};
+
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: "#f6f7fb",
+    backgroundColor: COLORS.background,
   },
   container: {
     flex: 1,
     padding: 24,
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
   },
-  header: {
+  card: {
     width: "100%",
+    maxWidth: 420,
+    backgroundColor: COLORS.card,
+    borderRadius: 16,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 6,
+  },
+  cardHeader: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-around",
-    marginTop: 40,
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: COLORS.border,
   },
   logo: {
-    width: 140,
-    height: 140,
+    width: 72,
+    height: 72,
+    marginRight: 16,
+  },
+  headerText: {
+    flex: 1,
   },
   schoolName: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
-    color: "#1f2937",
-    marginTop: 4,
+    color: COLORS.text,
     letterSpacing: 1,
   },
-  info: {
-    marginTop: 36,
-    alignItems: "center",
-    gap: 8, // gap works on modern RN; if error, replace with marginBottom on labels
+  cardTitle: {
+    marginTop: 4,
+    fontSize: 12,
+    fontWeight: "600",
+    color: COLORS.primary,
+    letterSpacing: 2,
+  },
+  cardBody: {
+    padding: 20,
+  },
+  field: {
+    marginBottom: 14,
   },
   label: {
-    fontSize: 16,
-    color: "#6b7280",
-    fontWeight: "500",
+    fontSize: 12,
+    color: COLORS.muted,
+    textTransform: "uppercase",
+    letterSpacing: 1,
   },
   value: {
+    marginTop: 2,
     fontSize: 17,
-    color: "#111827",
+    color: COLORS.text,
     fontWeight: "bold",
+  },
+  cardFooter: {
+    height: 8,
+    backgroundColor: COLORS.primary,
   },
 });
